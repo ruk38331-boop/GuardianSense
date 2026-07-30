@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuardianSense - AI Safety System for Elderly Care</title>
+    <meta name="description" content="GuardianSense research prototype: privacy-preserving, camera-free, multi-sensor safety system for elderly care.">
+    <meta name="author" content="GuardianSense">
+    <meta name="last-modified" content="2026-07-30">
+    
+    <!-- أيقونة الموقع (Favicon) -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        .hero-bg { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); }
+        .component-card, .tech-card, .card-hover { transition: all 0.3s ease; }
+        .component-card:hover, .tech-card:hover, .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border-color: #3b82f6; }
+        .image-placeholder { background-image: repeating-linear-gradient(45deg, #f3f4f6 25%, transparent 25%, transparent 75%, #f3f4f6 75%, #f3f4f6), repeating-linear-gradient(45deg, #f3f4f6 25%, #ffffff 25%, #ffffff 75%, #f3f4f6 75%, #f3f4f6); background-position: 0 0, 10px 10px; background-size: 20px 20px; }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 24px;
+            width: 4px;
+            background-color: #cbd5e1;
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line::before { right: 50%; transform: translateX(50%); }
+        }
+    
+        summary { list-style: none; }
+        summary::-webkit-details-marker { display: none; }
+        .nav-dropdown[open] > summary { color: #2563eb; background: #eff6ff; }
+        .nav-dropdown > div { animation: navFade 0.18s ease-out; }
+        @keyframes navFade { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body class="bg-white text-gray-800 antialiased">
+    <!-- شريط التنقل المتكامل (معدل ليدعم الجوال والشاشات الكبيرة) -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="h-16 flex items-center justify-between gap-6">
+                <!-- الشعار الأصلي بدون تغيير -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="font-bold text-2xl text-blue-600 tracking-tight">GuardianSense</a>
+                </div>
+
+                <!-- القائمة المرتبة للشاشات الكبيرة -->
+                <div class="hidden lg:flex items-center gap-2 text-sm font-semibold">
+                    <a href="#home" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-4 py-2 rounded-xl transition">الرئيسية</a>
+
+                    <details class="relative nav-dropdown">
+                        <summary class="whitespace-nowrap cursor-pointer text-gray-700 hover:text-blue-600 px-4 py-2 rounded-xl transition flex items-center gap-2">
+                            <span>المشروع</span><span class="text-xs">▼</span>
+                        </summary>
+                        <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl border border-gray-100 shadow-xl p-2 z-50">
+                            <a href="#why" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">لماذا النظام</a>
+                            <a href="#problem-solution" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">المشكلة والحل</a>
+                            <a href="#device" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">الجهاز</a>
+                            <a href="#application" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">التطبيق</a>
+                            <a href="#technology" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">التكنولوجيا</a>
+                            <a href="#framework" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">إطار القرار</a>
+                        </div>
+                    </details>
+
+                    <details class="relative nav-dropdown">
+                        <summary class="whitespace-nowrap cursor-pointer text-gray-700 hover:text-blue-600 px-4 py-2 rounded-xl transition flex items-center gap-2">
+                            <span>البحث والتطوير</span><span class="text-xs">▼</span>
+                        </summary>
+                        <div class="absolute top-full right-0 mt-3 w-64 bg-white rounded-2xl border border-gray-100 shadow-xl p-2 z-50">
+                            <a href="#research" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">البحث العلمي</a>
+                            <a href="#prior-art" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">الدراسات السابقة</a>
+                            <a href="#comparison" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">المقارنة</a>
+                            <a href="#architecture" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Architecture</a>
+                            <a href="#testing" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">الاختبارات</a>
+                            <a href="#roadmap" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">خريطة التطوير</a>
+                            <a href="#references" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">المراجع</a>
+                        </div>
+                    </details>
+
+                    <a href="#project-status" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-4 py-2 rounded-xl transition">حالة المشروع</a>
+                    <a href="#faq" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-4 py-2 rounded-xl transition">الأسئلة</a>
+                    <a href="#contact" class="whitespace-nowrap text-gray-700 hover:text-blue-600 px-4 py-2 rounded-xl transition">تواصل معنا</a>
+                </div>
+
+                <!-- قائمة الجوال بنفس الهوية -->
+                <details class="relative lg:hidden mobile-navigation">
+                    <summary class="cursor-pointer w-11 h-11 flex items-center justify-center rounded-xl border border-gray-200 text-gray-700 hover:text-blue-600 hover:border-blue-200 transition" aria-label="فتح القائمة">
+                        <span class="text-2xl leading-none">☰</span>
+                    </summary>
+                    <div class="absolute top-full left-0 mt-3 w-[min(88vw,340px)] max-h-[75vh] overflow-y-auto bg-white rounded-2xl border border-gray-100 shadow-2xl p-3 z-50 text-sm font-semibold">
+                        <a href="#home" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">الرئيسية</a>
+
+                        <details class="border-t border-gray-100 mt-1 pt-1">
+                            <summary class="cursor-pointer px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition flex items-center justify-between">
+                                <span>المشروع</span><span class="text-xs">▼</span>
+                            </summary>
+                            <div class="pr-3 border-r-2 border-blue-100 mr-4 mb-2">
+                                <a href="#why" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">لماذا النظام</a>
+                                <a href="#problem-solution" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">المشكلة والحل</a>
+                                <a href="#device" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">الجهاز</a>
+                                <a href="#application" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">التطبيق</a>
+                                <a href="#technology" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">التكنولوجيا</a>
+                                <a href="#framework" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">إطار القرار</a>
+                            </div>
+                        </details>
+
+                        <details class="border-t border-gray-100 mt-1 pt-1">
+                            <summary class="cursor-pointer px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition flex items-center justify-between">
+                                <span>البحث والتطوير</span><span class="text-xs">▼</span>
+                            </summary>
+                            <div class="pr-3 border-r-2 border-blue-100 mr-4 mb-2">
+                                <a href="#research" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">البحث العلمي</a>
+                                <a href="#prior-art" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">الدراسات السابقة</a>
+                                <a href="#comparison" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">المقارنة</a>
+                                <a href="#architecture" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">Architecture</a>
+                                <a href="#testing" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">الاختبارات</a>
+                                <a href="#roadmap" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">خريطة التطوير</a>
+                                <a href="#references" class="block px-4 py-2.5 rounded-xl text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition">المراجع</a>
+                            </div>
+                        </details>
+
+                        <a href="#project-status" class="block border-t border-gray-100 mt-1 px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">حالة المشروع</a>
+                        <a href="#faq" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">الأسئلة</a>
+                        <a href="#contact" class="block px-4 py-3 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">تواصل معنا</a>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero Section -->
+    <section id="home" class="hero-bg py-20 lg:py-32 overflow-hidden border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center">
+            <div class="lg:w-1/2 text-right z-10">
+                <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-4">GuardianSense</h1>
+                <h2 class="text-2xl lg:text-3xl text-blue-600 font-bold mb-6">ذكاء اصطناعي يفهم الروتين... قبل أن يطلق الإنذار.</h2>
+                <p class="text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed max-w-xl">
+                    نظام ذكي متكامل صُمم لمساعدة كبار السن داخل المنزل، ويعتمد على دمج المستشعرات والذكاء الاصطناعي والتعلم الشخصي للروتين لتقييم الحاجة الفعلية للمساعدة، مع الحفاظ الكامل على الخصوصية ودون استخدام أي كاميرات.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+                    <a href="#device" class="bg-blue-600 text-white text-center px-8 py-4 rounded-full font-bold shadow-lg hover:bg-blue-700 transition">اكتشف النظام</a>
+                    <a href="#technology" class="bg-white text-blue-600 text-center border-2 border-blue-600 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition">شاهد كيف يعمل</a>
+                </div>
+                <p class="mt-6 text-sm text-gray-500 leading-relaxed max-w-xl">
+                    نموذج بحثي أولي قيد التطوير والاختبار، وليس جهازًا طبيًا معتمدًا أو بديلًا عن خدمات الطوارئ والرعاية الطبية.
+                </p>
+            </div>
+            <div class="lg:w-1/2 mt-16 lg:mt-0 flex justify-center relative">
+                <div class="w-72 h-72 lg:w-96 lg:h-96 bg-white rounded-[3rem] shadow-2xl flex items-center justify-center text-gray-400 border border-gray-50 relative z-10 overflow-hidden">
+                    <!-- صورة الجهاز -->
+                    <img src="device.jpg" alt="جهاز GuardianSense" class="w-full h-full object-cover">
+                    <div class="absolute -bottom-10 w-4/5 h-12 bg-black opacity-5 blur-2xl rounded-[100%]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. لماذا GuardianSense؟ -->
+    <section id="why" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-4xl font-extrabold text-center text-gray-900 mb-16">لماذا GuardianSense؟</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-gray-50 rounded-3xl p-10 shadow-sm border border-gray-100 hover:-translate-y-2 transition">
+                    <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8">🛡️</div>
+                    <h4 class="text-2xl font-bold mb-4 text-gray-900">خصوصية كاملة</h4>
+                    <ul class="text-gray-600 space-y-3 font-medium">
+                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full ml-3"></span>لا يستخدم كاميرات.</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full ml-3"></span>لا يلتقط صورًا.</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full ml-3"></span>لا يسجل فيديو.</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full ml-3"></span>يحافظ على خصوصية المستخدم داخل المنزل.</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 rounded-3xl p-10 shadow-sm border border-gray-100 hover:-translate-y-2 transition">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-8">🧠</div>
+                    <h4 class="text-2xl font-bold mb-4 text-gray-900">ذكاء اصطناعي شخصي</h4>
+                    <ul class="text-gray-600 space-y-3 font-medium">
+                        <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full ml-3"></span>يتعلم الروتين اليومي لكل مستخدم.</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full ml-3"></span>لا يعتمد على أوقات ثابتة.</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full ml-3"></span>يتكيف تدريجيًا مع تغير نمط الحياة.</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 rounded-3xl p-10 shadow-sm border border-gray-100 hover:-translate-y-2 transition">
+                    <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mb-8">🎯</div>
+                    <h4 class="text-2xl font-bold mb-4 text-gray-900">قرارات أكثر دقة</h4>
+                    <ul class="text-gray-600 space-y-3 font-medium">
+                        <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full ml-3"></span>يعتمد على دمج عدة مؤشرات.</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full ml-3"></span>لا يعتمد على السقوط فقط.</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full ml-3"></span>يساعد في تقليل الإنذارات الكاذبة مع الحفاظ على سرعة الاستجابة.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. المشكلة والحل -->
+    <section id="problem-solution" class="py-24 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <div class="inline-block bg-red-900/50 border border-red-500/30 text-red-400 font-semibold px-4 py-2 rounded-full mb-6">التحدي</div>
+                <h3 class="text-4xl font-bold mb-6">المشكلة التي نحاول حلها</h3>
+                <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                    كل عام يتعرض ملايين كبار السن لحوادث سقوط داخل المنازل، ويُعد الحمام من أكثر الأماكن خطورة بسبب الأرضيات الزلقة والمساحات الضيقة.
+                </p>
+                <p class="text-gray-400 leading-relaxed border-r-4 border-gray-700 pr-4">
+                    كما أن كثيرًا من الأنظمة الحالية تعتمد على اكتشاف السقوط فقط، مما قد يؤدي إلى إنذارات كاذبة أو تجاهل حالات تحتاج فعلًا إلى المساعدة. تستند هذه المشكلة إلى تقارير صحية ودراسات منشورة حول إصابات السقوط لدى كبار السن.
+                </p>
+            </div>
+            <div class="bg-gray-800 p-10 rounded-3xl border border-gray-700">
+                <div class="inline-block bg-green-900/50 border border-green-500/30 text-green-400 font-semibold px-4 py-2 rounded-full mb-6">الحل</div>
+                <h3 class="text-3xl font-bold mb-6">كيف يحل GuardianSense هذه المشكلة؟</h3>
+                <p class="text-gray-300 mb-6">بدلًا من اتخاذ القرار بناءً على حدث واحد فقط، يقوم النظام بجمع وتحليل عدة مؤشرات في الوقت نفسه:</p>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="bg-gray-700/50 p-4 rounded-xl text-center font-medium text-sm">وجود سقوط محتمل</div>
+                    <div class="bg-gray-700/50 p-4 rounded-xl text-center font-medium text-sm">الحركة داخل الحمام</div>
+                    <div class="bg-gray-700/50 p-4 rounded-xl text-center font-medium text-sm">مدة البقاء</div>
+                    <div class="bg-gray-700/50 p-4 rounded-xl text-center font-medium text-sm">الاستجابة الصوتية</div>
+                    <div class="bg-gray-700/50 p-4 rounded-xl text-center font-medium text-sm col-span-2">مقارنة السلوك الحالي بالروتين الشخصي</div>
+                </div>
+                <div class="bg-blue-900/30 border border-blue-500/30 p-5 rounded-2xl text-center">
+                    <p class="font-bold text-blue-300 text-base">يقيّم الحالة ويحدد ما إذا كانت: <span class="text-white block mt-1">آمنة، تحتاج متابعة، أو تستدعي طلب المساعدة.</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. الجهاز والمكونات (Device & Exploded View) -->
+    <section id="device" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <div class="inline-block bg-blue-100 text-blue-700 font-bold px-4 py-2 rounded-full mb-4">Hardware Architecture</div>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6">جهاز GuardianSense</h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    تم تصميم جهاز GuardianSense ليكون وحدة ذكية صغيرة الحجم تُثبت داخل الحمام لمراقبة السلامة دون استخدام أي كاميرات، مع الحفاظ على الخصوصية الكاملة وتحليل البيئة المحيطة.
+                </p>
+            </div>
+
+            <!-- تفكيك الجهاز (Exploded View - 13 Layers) -->
+            <h3 class="text-3xl font-extrabold text-center mb-12 text-gray-900">مكونات الجهاز (الطبقات الـ 13)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+                <!-- الطبقة 1 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">1</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">الغطاء الأمامي (Front Cover)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">مادة مقاومة للرطوبة بلون أبيض مطفي، تسمح بمرور الصوت والإشارات.</p>
+                </div>
+                <!-- الطبقة 2 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">2</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">LED Status Ring (KY-009)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">أخضر=يعمل، أصفر=انتباه، أحمر=طوارئ، أزرق=تحديث أو اتصال.</p>
+                </div>
+                <!-- الطبقة 3 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">3</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Microphone (INMP441)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">ميكروفون رقمي لاستقبال الاستجابة وكلمة المساعدة. <strong class="text-red-500">لا يحفظ التسجيلات.</strong></p>
+                </div>
+                <!-- الطبقة 4 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">4</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Speaker & MAX98357A</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">مكبر صوت مصغر لسؤال المستخدم، إطلاق التنبيهات، والتذكير بالأدوية.</p>
+                </div>
+                <!-- الطبقة 5 -->
+                <div class="component-card bg-blue-50 border border-blue-200 p-8 rounded-3xl relative overflow-hidden shadow-sm lg:col-span-2">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">5</div>
+                    <h4 class="text-2xl font-bold mb-1 text-gray-900 mt-2">المتحكم الرئيسي ESP32-WROOM-32D</h4>
+                    <p class="text-gray-700 text-sm mt-3 leading-relaxed">العقل الإلكتروني المسؤول عن قراءة الحساسات، تشغيل خوارزميات القرار، والاتصال بالشبكة والتطبيق.</p>
+                </div>
+                <!-- الطبقة 6 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">6</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">mmWave Sensor (LD2410C)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">رادار دقيق لاكتشاف وجود الإنسان، الحركة، ومعرفة بقائه داخل الحمام.</p>
+                </div>
+                <!-- الطبقة 7 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">7</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Fall Radar (MR60FDA2)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">رادار مخصص لاكتشاف السقوط وتحليل وضعية الجسم بدون كاميرا.</p>
+                </div>
+                <!-- الطبقة 8 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">8</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Door Sensor (MC-38)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">لرصد وقت دخول وخروج الحمام بدقة وحساب مدة البقاء.</p>
+                </div>
+                <!-- الطبقة 9 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">9</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Active Buzzer (KY-012)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">لإصدار صفارة إنذار محلية داخل المنزل عند الحالات الحرجة.</p>
+                </div>
+                <!-- الطبقة 10 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">10</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Battery (18650 Li-ion)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">بطارية داخلية قابلة لإعادة الشحن لضمان التشغيل أثناء انقطاع الكهرباء.</p>
+                </div>
+                <!-- الطبقة 11، 12، 13 -->
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">11</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Charging Module (TP4056)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">لإدارة شحن البطارية بأمان وحمايتها من التلف.</p>
+                </div>
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">12</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Voltage Booster (MT3608)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">لرفع جهد البطارية وتزويد المكونات بالطاقة اللازمة.</p>
+                </div>
+                <div class="component-card bg-white border border-gray-100 p-8 rounded-3xl relative overflow-hidden shadow-sm">
+                    <div class="absolute top-0 right-0 bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-bl-3xl">13</div>
+                    <h4 class="text-xl font-bold mb-1 text-gray-900 mt-2">Real Time Clock (DS3231)</h4>
+                    <p class="text-gray-600 text-sm mt-3 leading-relaxed">لحفظ الوقت بدقة، تسجيل الأحداث، ومقارنة الروتين اليومي.</p>
+                </div>
+            </div>
+
+            <!-- جدول المواصفات التقنية -->
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border border-gray-200">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">المواصفات التقنية للجهاز</h3>
+                <table class="w-full text-right text-gray-700 text-sm">
+                    <tbody class="divide-y divide-gray-100">
+                        <tr><th class="py-3 px-4 bg-gray-50 font-bold">الأبعاد والوزن</th><td class="py-3 px-4">11 × 11 × 3 سم | 250–350 جم</td></tr>
+                        <tr><th class="py-3 px-4 bg-gray-50 font-bold">اللون والتثبيت</th><td class="py-3 px-4">أبيض مطفي (Matte White) | يُثبت على جدار الحمام</td></tr>
+                        <tr><th class="py-3 px-4 bg-gray-50 font-bold">الاتصال والطاقة</th><td class="py-3 px-4">Wi-Fi + Bluetooth | بطارية 18650 مع دعم انقطاع الكهرباء</td></tr>
+                        <tr><th class="py-3 px-4 bg-gray-50 font-bold">الخصائص الإضافية</th><td class="py-3 px-4 text-green-600 font-bold">مقاومة الرطوبة • بدون كاميرا • مكبر صوت وميكروفون للتفاعل • تحديثات OTA</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- لماذا اختيرت هذه المكونات؟ -->
+            <div class="mt-12 max-w-6xl mx-auto bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-gray-200 overflow-x-auto">
+                <h3 class="text-2xl font-bold text-gray-900 mb-3 text-center">وظيفة كل قطعة ولماذا اختيرت</h3>
+                <p class="text-center text-sm text-gray-500 mb-8">الاختيارات الحالية خاصة بالنموذج الأولي، وقد تتغير بعد اختبارات الطاقة، الرطوبة، التداخل، والتكلفة.</p>
+                <table class="w-full min-w-[900px] text-right text-sm text-gray-700">
+                    <thead class="bg-gray-900 text-white">
+                        <tr><th class="p-4">المكوّن</th><th class="p-4">الوظيفة</th><th class="p-4">سبب الاختيار</th><th class="p-4">ملاحظة هندسية</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr><td class="p-4 font-bold">Front Cover</td><td class="p-4">حماية الإلكترونيات وتمرير الصوت والرادار.</td><td class="p-4">تصميم غير لافت ومناسب لبيئة منزلية حساسة.</td><td class="p-4">يلزم اختيار خامة لا تعيق موجات الرادار واختبار مقاومة الرطوبة.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">KY-009 RGB LED</td><td class="p-4">إظهار حالة التشغيل والتنبيه والاتصال.</td><td class="p-4">واجهة بصرية بسيطة ومنخفضة التكلفة في النموذج الأولي.</td><td class="p-4">قد يُستبدل بحل LED مدمج أقل استهلاكًا في النسخة النهائية.</td></tr>
+                        <tr><td class="p-4 font-bold">INMP441</td><td class="p-4">التقاط استجابة قصيرة أو كلمة استغاثة عبر I²S.</td><td class="p-4">إشارة رقمية تقلل ضوضاء التحويل مقارنة بميكروفونات تناظرية بسيطة.</td><td class="p-4">المعالجة محلية، ولا يُفترض حفظ التسجيلات الصوتية.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">Speaker + MAX98357A</td><td class="p-4">طرح سؤال التحقق وتشغيل التنبيهات.</td><td class="p-4">مضخم I²S صغير يسهّل الربط المباشر مع ESP32.</td><td class="p-4">يجب اختبار وضوح الصوت مع بخار الماء وضجيج المروحة.</td></tr>
+                        <tr><td class="p-4 font-bold">ESP32-WROOM-32D</td><td class="p-4">قراءة الحساسات، تشغيل منطق القرار، والاتصال.</td><td class="p-4">يدعم Wi‑Fi وBluetooth وواجهات UART/I²C/I²S مع مجتمع تطوير واسع.</td><td class="p-4">الموديول مصنف NRND من الشركة؛ يوصى بتقييم ESP32-WROOM-32E أو جيل أحدث للإنتاج.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">LD2410C</td><td class="p-4">اكتشاف الوجود والحركة الدقيقة والثبات.</td><td class="p-4">استشعار دون كاميرا، ومفيد عند انخفاض الإضاءة أو سكون المستخدم.</td><td class="p-4">يحتاج معايرة للمسافة والحساسية حسب مساحة الحمام.</td></tr>
+                        <tr><td class="p-4 font-bold">MR60FDA2</td><td class="p-4">تقدير حدوث سقوط ووضعية الجسم بالرادار.</td><td class="p-4">مصمم لتطبيقات اكتشاف السقوط دون ارتداء جهاز أو تصوير.</td><td class="p-4">لا بد من اختباره ميدانيًا مع أوضاع سقوط وأنشطة يومية متنوعة.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">MC-38</td><td class="p-4">رصد فتح وإغلاق الباب وربط الحدث بالدخول والخروج.</td><td class="p-4">بسيط وموثوق ومنخفض الاستهلاك.</td><td class="p-4">لا يثبت هوية الداخل؛ لذلك يعامل كدليل سياقي فقط.</td></tr>
+                        <tr><td class="p-4 font-bold">KY-012 Buzzer</td><td class="p-4">تنبيه محلي مستقل عن الهاتف.</td><td class="p-4">يوفر قناة إنذار احتياطية مباشرة.</td><td class="p-4">يجب ألا تكون شدة الصوت مزعجة في الحالات غير الحرجة.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">18650 Li-ion</td><td class="p-4">تشغيل احتياطي عند انقطاع الكهرباء.</td><td class="p-4">كثافة طاقة جيدة وتوفر واسع للنماذج الأولية.</td><td class="p-4">يلزم خلية أصلية، حماية حرارية وكهربائية، وتصميم آمن للرطوبة.</td></tr>
+                        <tr><td class="p-4 font-bold">TP4056</td><td class="p-4">شحن خلية ليثيوم واحدة وإدارة الحماية في النسخ المزودة بالحماية.</td><td class="p-4">حل شائع وسهل للتجارب.</td><td class="p-4">يجب التحقق من الحرارة والتيار، وقد يلزم حل إدارة طاقة أكثر تكاملًا للإنتاج.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">MT3608</td><td class="p-4">رفع الجهد عند الحاجة.</td><td class="p-4">مرن ومنخفض التكلفة للنموذج الأولي.</td><td class="p-4">تُراجع الكفاءة والضوضاء الكهرومغناطيسية قبل تثبيت التصميم.</td></tr>
+                        <tr><td class="p-4 font-bold">DS3231</td><td class="p-4">حفظ الوقت عند انقطاع الشبكة والطاقة الرئيسية.</td><td class="p-4">دقة زمنية جيدة وبطارية احتياطية، ما يدعم مقارنة الروتين.</td><td class="p-4">يمكن الاستغناء عنه إذا أثبتت اختبارات مزامنة الوقت والنسخ الاحتياطي عدم الحاجة.</td></tr>
+                    </tbody>
+                </table>
+                <p class="mt-5 text-xs text-gray-500">مرجع هندسي: وثائق Espressif الرسمية للمتحكم، وSeeed Studio لرادار السقوط، وبيانات TDK للميكروفون. جميع قرارات الاختيار قابلة للمراجعة بعد الاختبار.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. قسم التطبيق والمميزات -->
+    <section id="application" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center mb-24">
+                <div>
+                    <h3 class="text-4xl font-extrabold text-gray-900 mb-6">تطبيق GuardianSense</h3>
+                    <p class="text-xl text-gray-600 leading-relaxed bg-gray-50 p-8 rounded-3xl border border-gray-100">
+                        يمكن لأفراد العائلة متابعة الحالة الصحية، والاطلاع على التنبيهات الفورية، ومراقبة حالة الجهاز والبطارية من أي مكان عبر تطبيق GuardianSense الذكي.
+                    </p>
+                </div>
+                <div class="bg-blue-50 rounded-[3rem] text-center h-80 flex items-center justify-center border border-blue-100 overflow-hidden shadow-inner">
+                    <!-- صورة التطبيق -->
+                    <img src="app.jpg" alt="تطبيق GuardianSense" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- 8 بطاقات المميزات الرئيسية -->
+            <h3 class="text-4xl font-extrabold text-center text-gray-900 mb-16">المميزات الرئيسية للنظام</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">🔄</div>
+                    <div class="font-bold text-gray-800">تعلم الروتين</div>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">🔒</div>
+                    <div class="font-bold text-gray-800">حماية الخصوصية</div>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">📡</div>
+                    <div class="font-bold text-gray-800">تحليل متعدد المستشعرات</div>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">🔔</div>
+                    <div class="font-bold text-gray-800">تنبيهات ذكية</div>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">📊</div>
+                    <div class="font-bold text-gray-800">تقارير يومية</div>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">🔋</div>
+                    <div class="font-bold text-gray-800">مراقبة البطارية</div>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">👨‍👩‍👧‍👦</div>
+                    <div class="font-bold text-gray-800">متابعة أفراد العائلة</div>
+                </div>
+                <div class="p-6 bg-gray-50 rounded-3xl text-center border hover:border-blue-400 transition">
+                    <div class="text-3xl mb-3">🚀</div>
+                    <div class="font-bold text-gray-800">تحديثات مستقبلية OTA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. قسم التكنولوجيا والخصوصية -->
+    <section id="technology" class="py-24 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <h2 class="text-4xl font-extrabold mb-6 text-blue-400">التكنولوجيا التي تجعل GuardianSense مختلفًا</h2>
+                <p class="text-lg text-gray-300 leading-relaxed">
+                    يعتمد النظام على دمج متقدم للمستشعرات والرادارات لتقييم الحالة واتخاذ القرار بطريقة ذكية دون المساومة على الخصوصية.
+                </p>
+            </div>
+
+            <!-- لماذا لا نستخدم كاميرا؟ -->
+            <div class="bg-red-950/40 border border-red-500/30 p-10 rounded-3xl mb-20">
+                <div class="text-4xl mb-4">🚫📷</div>
+                <h3 class="text-3xl font-extrabold text-white mb-4">لماذا لا نستخدم كاميرا؟</h3>
+                <p class="text-xl text-red-400 font-bold mb-4">لأن الخصوصية أهم.</p>
+                <p class="text-gray-300 mb-4">GuardianSense يعتمد على الرادار، الحركة، الروتين، والصوت... وليس على تصوير المستخدم داخل منزله.</p>
+            </div>
+
+            <!-- مخطط عمل التقنيات معاً -->
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold mb-12 text-blue-300">كيف تعمل جميع التقنيات معًا؟</h3>
+                <div class="max-w-md mx-auto space-y-4 font-mono">
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">MC-38 (دخول الحمام)</div>
+                    <div class="text-gray-500">↓</div>
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">LD2410C (مراقبة الحركة)</div>
+                    <div class="text-gray-500">↓</div>
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">MR60FDA2 (رصد السقوط)</div>
+                    <div class="text-gray-500">↓</div>
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">INMP441 (التحقق الصوتي)</div>
+                    <div class="text-gray-500">↓</div>
+                    <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">DS3231 (مقارنة الروتين)</div>
+                    <div class="text-gray-500">↓</div>
+                    <div class="bg-blue-600 p-5 rounded-2xl text-white font-bold text-lg shadow-lg">ESP32 (Decision Framework)</div>
+                    <div class="text-gray-500">↓</div>
+                    <div class="bg-green-600 p-4 rounded-2xl text-white font-bold">إرسال إشعار للتطبيق ولي الأمر</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Decision Framework (إطار اتخاذ القرار) -->
+    <section id="framework" class="py-24 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-block bg-green-100 text-green-700 font-bold px-4 py-2 rounded-full mb-4">Intelligent Framework</div>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6">GuardianSense Decision Framework</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    إطار ذكي قابل للتفسير لتقييم الحاجة الفعلية للمساعدة لدى كبار السن داخل الحمام باستخدام دمج الأدلة متعددة المستشعرات.
+                </p>
+            </div>
+
+            <!-- فلسفة النظام -->
+            <div class="bg-white p-10 rounded-3xl shadow-sm border border-gray-200 mb-16 text-center">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">فلسفة النظام</h3>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="bg-red-50 p-6 rounded-2xl border border-red-100">
+                        <p class="text-gray-500 font-bold mb-2">الأنظمة التقليدية:</p>
+                        <p class="text-xl font-bold text-red-600">"هل سقط الشخص؟"</p>
+                    </div>
+                    <div class="bg-green-50 p-6 rounded-2xl border-2 border-green-500 shadow-md">
+                        <p class="text-gray-700 font-bold mb-2">GuardianSense:</p>
+                        <p class="text-2xl font-extrabold text-green-700">"هل يحتاج هذا الشخص إلى المساعدة الآن؟"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- مراحل القرار الـ 8 -->
+            <h3 class="text-3xl font-extrabold text-center text-gray-900 mb-12">مراحل اتخاذ القرار الـ 8</h3>
+            <div class="relative timeline-line mb-20">
+                <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 mr-auto text-right"><h4 class="font-bold text-green-600 text-lg">1. جمع البيانات</h4><p class="text-sm text-gray-600">جمع مؤشرات الحركة، السقوط، الوقت، والروتين في نفس اللحظة.</p></div></div>
+                <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 ml-auto text-right"><h4 class="font-bold text-green-600 text-lg">2. التحليل المستقل</h4><p class="text-sm text-gray-600">فحص كل مؤشر على حدة (حركة، استجابة، مدة البقاء).</p></div></div>
+                <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 mr-auto text-right"><h4 class="font-bold text-green-600 text-lg">3. مقارنة الروتين</h4><p class="text-sm text-gray-600">مقارنة السلوك الحالي بتاريخ المستخدم وتحديد ما إذا كان طبيعيًا.</p></div></div>
+                <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 ml-auto text-right"><h4 class="font-bold text-blue-600 text-lg">4. دمج الأدلة</h4><p class="text-sm text-gray-600">جمع كافة المخرجات للحصول على صورة دقيقة وشاملة للحالة.</p></div></div>
+                <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 mr-auto text-right"><h4 class="font-bold text-indigo-600 text-lg">5. تقييم الحالة</h4><p class="text-sm text-gray-600">تحديد الحالة بين (آمن 🟢، يحتاج متابعة 🟡، يحتاج مساعدة 🔴).</p></div></div>
+                <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 ml-auto text-right"><h4 class="font-bold text-purple-600 text-lg">6. التحقق الصوتي</h4><p class="text-sm text-gray-600">سؤال المستخدم "هل أنت بخير؟" والتحقق من وجود استجابة.</p></div></div>
+                <div class="relative z-10 flex items-center mb-8"><div class="bg-white p-6 rounded-2xl shadow-sm border w-full md:w-5/6 mr-auto text-right"><h4 class="font-bold text-orange-500 text-lg">7. إعادة التقييم</h4><p class="text-sm text-gray-600">التأكد من أن المؤشرات ليست ناتجة عن خطأ مؤقت.</p></div></div>
+                <div class="relative z-10 flex items-center"><div class="bg-red-50 p-6 rounded-2xl shadow-sm border border-red-200 w-full md:w-5/6 ml-auto text-right"><h4 class="font-bold text-red-700 text-lg">8. إرسال التنبيه</h4><p class="text-sm text-red-600">إرسال إشعار فورى لأفراد العائلة مع تفاصيل الحالة وأسباب التنبيه.</p></div></div>
+            </div>
+
+            <!-- تفسير القرار (Explainable AI) -->
+            <div class="bg-gray-900 text-white p-8 rounded-3xl shadow-xl mb-16">
+                <h3 class="text-2xl font-bold mb-4">تفسير القرار (Explainable Decision)</h3>
+                <p class="text-gray-300 mb-6 text-sm">كل تنبيه يصدره النظام يأتي مع توضيح للأسباب لتعزيز الثقة:</p>
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 text-sm space-y-2">
+                    <p class="text-yellow-400 font-bold">⚠️ تم رفع مستوى التنبيه بسبب:</p>
+                    <p class="text-gray-300">• زيادة مدة البقاء عن المعتاد مقارنة بالروتين.</p>
+                    <p class="text-gray-300">• انقطاع الحركة المستمرة داخل المكان.</p>
+                    <p class="text-gray-300">• عدم الاستجابة للنداء الصوتي.</p>
+                </div>
+            </div>
+
+            <!-- الملاحظة الهامة (Disclaimer) -->
+            <div class="bg-white p-6 rounded-2xl border-l-4 border-blue-500 shadow-sm text-right">
+                <p class="text-sm text-gray-700 leading-relaxed">
+                    <strong class="text-gray-900">ملاحظة:</strong> يعتمد GuardianSense على إطار لاتخاذ القرار يجري تطويره واختباره ضمن هذا المشروع البحثي. يعرض الموقع المبادئ العامة لعمل النظام، بينما تبقى التفاصيل الفنية الدقيقة والخوارزميات الداخلية غير منشورة حفاظًا على الملكية الفكرية ودعمًا لجهود حماية الابتكار مستقبلًا.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 8. البحث العلمي -->
+    <section id="research" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto mb-16">
+                <div class="inline-block bg-blue-100 text-blue-700 font-bold px-4 py-2 rounded-full mb-4">Scientific Research</div>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6">الإطار العلمي للمشروع</h2>
+                <p class="text-lg text-gray-600 leading-relaxed">يختبر GuardianSense ما إذا كان دمج أدلة متعددة وغير تصويرية، مع مقارنة السلوك بالروتين الشخصي والتحقق الصوتي، يمكن أن يحسن قرار طلب المساعدة داخل الحمام مقارنة بالاعتماد على إشارة سقوط منفردة.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-blue-50 border border-blue-100 p-8 rounded-3xl">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-4">سؤال البحث</h3>
+                    <p class="text-gray-700 leading-relaxed font-semibold">إلى أي مدى يمكن لنظام منزلي غير قابل للارتداء، ودون كاميرا، أن يميز بين الحالة الطبيعية والحالة التي تحتاج إلى مساعدة عبر دمج: سقوط محتمل، حركة أو سكون، مدة البقاء، الاستجابة الصوتية، والانحراف عن الروتين الشخصي؟</p>
+                </div>
+                <div class="bg-green-50 border border-green-100 p-8 rounded-3xl">
+                    <h3 class="text-2xl font-bold text-green-900 mb-4">الفرضية</h3>
+                    <p class="text-gray-700 leading-relaxed">دمج عدة مؤشرات مستقلة مع إعادة التحقق قبل إرسال الإنذار سيخفض الإنذارات الكاذبة ويحسن اكتشاف الحالات الحرجة مقارنة بقاعدة تعتمد على حدث سقوط واحد، مع المحافظة على الخصوصية وعدم إلزام المستخدم بارتداء جهاز.</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 text-white rounded-3xl p-8 md:p-10 mb-12">
+                <h3 class="text-2xl font-bold mb-7">المنهجية المقترحة</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="bg-gray-800 p-5 rounded-2xl"><span class="text-blue-400 font-bold">1. تصميم تجريبي</span><p class="text-sm text-gray-300 mt-2">مقارنة GuardianSense بخط أساس يعتمد على إشارة سقوط فقط.</p></div>
+                    <div class="bg-gray-800 p-5 rounded-2xl"><span class="text-blue-400 font-bold">2. بيانات متعددة</span><p class="text-sm text-gray-300 mt-2">تسجيل أحداث الحساسات ونتيجة السيناريو دون صور أو فيديو.</p></div>
+                    <div class="bg-gray-800 p-5 rounded-2xl"><span class="text-blue-400 font-bold">3. Ground Truth</span><p class="text-sm text-gray-300 mt-2">وسم كل تجربة يدويًا: سقوط، نشاط طبيعي، أو حالة تحتاج مساعدة.</p></div>
+                    <div class="bg-gray-800 p-5 rounded-2xl"><span class="text-blue-400 font-bold">4. مقاييس الأداء</span><p class="text-sm text-gray-300 mt-2">الحساسية، النوعية، Precision، F1، معدل الإنذار الكاذب وزمن التنبيه.</p></div>
+                </div>
+                <div class="mt-6 bg-yellow-900/30 border border-yellow-500/30 rounded-2xl p-5 text-sm text-yellow-100">لا توجد في هذه المرحلة نتائج سريرية منشورة للمشروع؛ أي أرقام أداء مستقبلية يجب أن تأتي من بروتوكول اختبار موثق وعينة مناسبة، لا من التوقعات.</div>
+            </div>
+
+            <h3 class="text-3xl font-extrabold text-center mb-10">مراحل البحث</h3>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">01</div><h4 class="font-bold mt-2">تحديد المشكلة</h4><p class="text-sm text-gray-600 mt-2">صياغة سؤال البحث، حدود الاستخدام، ومخاطر الحمام.</p></div>
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">02</div><h4 class="font-bold mt-2">مراجعة الأدبيات</h4><p class="text-sm text-gray-600 mt-2">مراجعة الرادار، الأجهزة القابلة للارتداء، قبول المستخدم والبراءات.</p></div>
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">03</div><h4 class="font-bold mt-2">تصميم النظام</h4><p class="text-sm text-gray-600 mt-2">اختيار الحساسات، بروتوكولات الاتصال، وسياسة الخصوصية.</p></div>
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">04</div><h4 class="font-bold mt-2">بناء النموذج</h4><p class="text-sm text-gray-600 mt-2">تجميع العتاد، برمجة ESP32، وربط التطبيق.</p></div>
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">05</div><h4 class="font-bold mt-2">اختبارات مضبوطة</h4><p class="text-sm text-gray-600 mt-2">تنفيذ السيناريوهات المتكررة وتوثيق النتائج.</p></div>
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">06</div><h4 class="font-bold mt-2">تحليل النتائج</h4><p class="text-sm text-gray-600 mt-2">حساب المقاييس، تحليل الأخطاء، وضبط النموذج.</p></div>
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">07</div><h4 class="font-bold mt-2">اختبار ميداني وأخلاقي</h4><p class="text-sm text-gray-600 mt-2">اختبار محدود بموافقات واضحة وإدارة مخاطر.</p></div>
+                <div class="p-6 rounded-2xl border bg-white shadow-sm"><div class="text-blue-600 font-black text-2xl">08</div><h4 class="font-bold mt-2">التوثيق والحماية</h4><p class="text-sm text-gray-600 mt-2">توثيق التصميم، مراجعة الملكية الفكرية، وخطة الاعتماد.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. الدراسات السابقة والبراءات -->
+    <section id="prior-art" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto mb-14">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-5">الدراسات السابقة والبراءات</h2>
+                <p class="text-gray-600 leading-relaxed">المصادر التالية دعمت اختيار الاستشعار غير التصويري، دمج الأدلة، وضرورة تقييم الإنذارات الكاذبة والقبول لدى كبار السن. الاعتماد هنا معرفي ولا يعني نسخ أي مطالبة براءة.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <article class="bg-white p-7 rounded-3xl border shadow-sm"><h3 class="font-bold text-lg mb-3">WHO — Falls</h3><p class="text-sm text-gray-600 leading-relaxed">يوضح العبء العالمي للسقوط وأن الأكبر سنًا يتحملون أكبر عدد من السقوطات القاتلة، ما يدعم أهمية الاكتشاف والاستجابة المبكرة.</p></article>
+                <article class="bg-white p-7 rounded-3xl border shadow-sm"><h3 class="font-bold text-lg mb-3">Radar-Based Fall Detection: A Survey (2024)</h3><p class="text-sm text-gray-600 leading-relaxed">مراجعة واسعة لتقنيات الرادار وميزات Micro-Doppler وRange-Doppler والتحديات المتعلقة بالتعميم وتعريف السقوط.</p></article>
+                <article class="bg-white p-7 rounded-3xl border shadow-sm"><h3 class="font-bold text-lg mb-3">Real-World Wearable Accuracy (2015)</h3><p class="text-sm text-gray-600 leading-relaxed">دراسة ميدانية على جهاز قابل للارتداء أبرزت الفجوة بين الاختبار المخبري والاستخدام الواقعي، وأهمية الالتزام بارتداء الجهاز.</p></article>
+                <article class="bg-white p-7 rounded-3xl border shadow-sm"><h3 class="font-bold text-lg mb-3">Automated In-Home Assessment (2015)</h3><p class="text-sm text-gray-600 leading-relaxed">بحث في الاستشعار المنزلي غير المزعج لاكتشاف السقوط ومخاطره، ويدعم نهج الحساسات المحيطية المستمرة.</p></article>
+                <article class="bg-white p-7 rounded-3xl border shadow-sm"><h3 class="font-bold text-lg mb-3">Advanced mmWave System (2024)</h3><p class="text-sm text-gray-600 leading-relaxed">نظام بحثي لتتبع أشخاص واكتشاف السقوط بالرادار المليمترّي، يوضح إمكان التقنية مع ضرورة عدم نقل أرقامه إلى مشروع مختلف.</p></article>
+                <article class="bg-white p-7 rounded-3xl border shadow-sm"><h3 class="font-bold text-lg mb-3">Technology Acceptance (2024)</h3><p class="text-sm text-gray-600 leading-relaxed">يبين أن التبني يتأثر بالسلامة، سهولة الاستخدام، التكلفة، الخصوصية والثقة؛ لذلك أُدرجت قابلية التفسير والخصوصية في التصميم.</p></article>
+            </div>
+
+            <div class="bg-white border rounded-3xl p-8 overflow-x-auto">
+                <h3 class="text-2xl font-bold mb-6">أمثلة من البراءات ذات الصلة</h3>
+                <table class="w-full min-w-[850px] text-sm text-right">
+                    <thead class="bg-gray-900 text-white"><tr><th class="p-4">المرجع</th><th class="p-4">الفكرة العامة</th><th class="p-4">علاقتها بالمراجعة</th></tr></thead>
+                    <tbody class="divide-y">
+                        <tr><td class="p-4 font-bold">US11741813B2</td><td class="p-4">تصنيف السقوط من سحابة نقاط رادارية مع معالجة متكيفة حسب منطقة الرصد.</td><td class="p-4">Prior art للاستشعار الراداري غير التلامسي وتقليل التقارير الخاطئة.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">US11875659B2 / PCT/US2019/065958</td><td class="p-4">مراقبة سقوط تحفظ الخصوصية باستخدام رادار في جهاز منزلي مع إخراج صوتي.</td><td class="p-4">يوضح تقاطع الرادار، الخصوصية، والتفاعل الصوتي.</td></tr>
+                        <tr><td class="p-4 font-bold">US7612681B2</td><td class="p-4">تقدير خطر السقوط من قياسات حساسات، تتضمن في بعض التطبيقات حساسات رادارية.</td><td class="p-4">يساعد على تمييز التنبؤ بالخطر عن اكتشاف حدث السقوط.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">CN118177787B</td><td class="p-4">إنذار راداري يستفيد من بيانات تاريخية لشخص محدد لتحقيق تخصيص أكبر.</td><td class="p-4">مرتبط بمفهوم الروتين الشخصي؛ يستلزم تحليل مطالبات قانوني متخصص قبل الإيداع.</td></tr>
+                    </tbody>
+                </table>
+                <div class="mt-5 p-4 rounded-xl bg-red-50 border border-red-100 text-sm text-red-800"><strong>تنبيه قانوني:</strong> هذه مراجعة تقنية أولية وليست Freedom-to-Operate ولا رأيًا قانونيًا. يجب أن يجري مختص براءات بحث مطالبات شاملًا في WIPO PATENTSCOPE وGoogle Patents وقواعد الدول المستهدفة قبل التسويق أو الإيداع.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. المقارنة -->
+    <section id="comparison" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14"><h2 class="text-4xl font-extrabold mb-5">المقارنة مع الأنظمة الحالية</h2><p class="text-gray-600">المقارنة وظيفية عالية المستوى بحسب الصفحات الرسمية المتاحة بتاريخ 30 يوليو 2026، وليست حكمًا سريريًا أو تجاريًا نهائيًا.</p></div>
+            <div class="overflow-x-auto rounded-3xl border shadow-sm">
+                <table class="w-full min-w-[1050px] text-sm text-right">
+                    <thead class="bg-gray-900 text-white"><tr><th class="p-4">المعيار</th><th class="p-4">Apple Watch</th><th class="p-4">Life Alert</th><th class="p-4">Vayyar Care</th><th class="p-4 bg-blue-700">GuardianSense — Prototype</th></tr></thead>
+                    <tbody class="divide-y">
+                        <tr><td class="p-4 font-bold">طريقة الاستخدام</td><td class="p-4">ساعة تُلبس على المعصم.</td><td class="p-4">زر/قلادة/سوار مع مركز استجابة.</td><td class="p-4">حساس RF ثابت دون ارتداء.</td><td class="p-4 bg-blue-50">وحدة ثابتة داخل الحمام دون ارتداء.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">البدء بطلب المساعدة</td><td class="p-4">رصد سقوط قوي، تنبيه، ثم اتصال تلقائي عند عدم الحركة وفق الشروط.</td><td class="p-4">الصفحات الرسمية تركز على ضغط زر المساعدة والتحدث مع المرسل.</td><td class="p-4">اكتشاف سقوط تلقائي بالرادار وإرسال تنبيه.</td><td class="p-4 bg-blue-50">دمج سقوط، حركة، مدة، روتين، ثم تحقق صوتي قبل التصعيد.</td></tr>
+                        <tr><td class="p-4 font-bold">الكاميرا</td><td class="p-4">لا تعتمد ميزة السقوط على كاميرا.</td><td class="p-4">لا يعتمد زر الطوارئ على كاميرا.</td><td class="p-4">لا يستخدم كاميرا؛ يعتمد RF.</td><td class="p-4 bg-blue-50 font-bold text-green-700">لا توجد كاميرا.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">شرط الارتداء/التذكر</td><td class="p-4">يجب ارتداء الساعة وشحنها.</td><td class="p-4">يجب ارتداء/حمل زر المساعدة والضغط عليه في النماذج اليدوية.</td><td class="p-4">لا يتطلب ارتداء جهاز.</td><td class="p-4 bg-blue-50">لا يتطلب ارتداء جهاز داخل نطاق الغرفة.</td></tr>
+                        <tr><td class="p-4 font-bold">التخصيص بالروتين</td><td class="p-4">ليست محور شرح ميزة Fall Detection الرسمية.</td><td class="p-4">ليست محور النظام اليدوي المعلن.</td><td class="p-4">تذكر الشركة أنماط حركة غير اعتيادية في عروض الرعاية.</td><td class="p-4 bg-blue-50 font-bold">جزء أساسي مقترح من إطار القرار.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">قابلية تفسير التنبيه</td><td class="p-4">يظهر أن سقوطًا قويًا اكتُشف.</td><td class="p-4">تقييم بشري بعد التواصل.</td><td class="p-4">تنبيهات سقوط وحركة بحسب المنصة.</td><td class="p-4 bg-blue-50">إظهار أسباب: سقوط، سكون، تأخر، عدم استجابة، انحراف روتين.</td></tr>
+                        <tr><td class="p-4 font-bold">وضع المشروع/الخدمة</td><td class="p-4">منتج استهلاكي متاح.</td><td class="p-4">خدمة إنذار ومركز استجابة.</td><td class="p-4">حل رعاية راداري تجاري.</td><td class="p-4 bg-blue-50 text-red-700 font-bold">نموذج بحثي غير معتمد طبيًا ولم تثبت دقته بعد.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-6 text-sm text-gray-500 leading-relaxed">الميزة البحثية المستهدفة لـ GuardianSense ليست مجرد “اكتشاف السقوط”، بل تقييم الحاجة الفعلية للمساعدة عبر سياق متعدد. يجب إثبات هذه الميزة تجريبيًا قبل استخدامها كادعاء أداء.</p>
+        </div>
+    </section>
+
+    <!-- 11. Architecture -->
+    <section id="architecture" class="py-24 bg-gray-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto mb-14"><div class="inline-block bg-blue-900/60 text-blue-300 px-4 py-2 rounded-full font-bold mb-4">System Architecture</div><h2 class="text-4xl font-extrabold mb-5">كيف تتواصل الحساسات مع ESP32 والتطبيق؟</h2><p class="text-gray-300">معالجة الحدث الأساسي محليًا أولًا، ثم تُرسل نتيجة مختصرة وآمنة إلى التطبيق عند توفر الشبكة.</p></div>
+
+            <div class="grid lg:grid-cols-[1fr_auto_1.2fr_auto_1fr] gap-5 items-stretch">
+                <div class="space-y-3">
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-4"><strong>LD2410C</strong><span class="block text-xs text-gray-400 mt-1">UART — وجود/حركة</span></div>
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-4"><strong>MR60FDA2</strong><span class="block text-xs text-gray-400 mt-1">UART — سقوط/وضعية</span></div>
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-4"><strong>MC-38</strong><span class="block text-xs text-gray-400 mt-1">GPIO — باب</span></div>
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-4"><strong>INMP441</strong><span class="block text-xs text-gray-400 mt-1">I²S — تحقق صوتي محلي</span></div>
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-4"><strong>DS3231</strong><span class="block text-xs text-gray-400 mt-1">I²C — وقت وسجل</span></div>
+                </div>
+                <div class="hidden lg:flex items-center text-4xl text-blue-500">←</div>
+                <div class="bg-blue-700 rounded-3xl p-7 flex flex-col justify-center shadow-2xl border border-blue-400/40">
+                    <h3 class="text-2xl font-extrabold mb-4">ESP32 Edge Controller</h3>
+                    <ul class="space-y-3 text-sm text-blue-50">
+                        <li>1) توحيد قراءات الحساسات مع طابع زمني.</li><li>2) تصفية الضوضاء والتحقق من صلاحية البيانات.</li><li>3) تحديث مؤشرات الجلسة والروتين المحلي.</li><li>4) تشغيل Decision Framework وإعادة التقييم.</li><li>5) تشغيل الصوت/LED/الصفارة عند الحاجة.</li><li>6) إنشاء Event Summary دون صور أو تسجيل صوتي.</li>
+                    </ul>
+                </div>
+                <div class="hidden lg:flex items-center text-4xl text-blue-500">←</div>
+                <div class="space-y-4">
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-5"><strong>Wi‑Fi / TLS</strong><p class="text-xs text-gray-400 mt-2">نقل مشفر لملخص الحدث وحالة الجهاز إلى API/Backend.</p></div>
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-5"><strong>GuardianSense App</strong><p class="text-xs text-gray-400 mt-2">إشعار، أسباب القرار، حالة البطارية، وسجل الأحداث المسموح.</p></div>
+                    <div class="bg-gray-900 border border-gray-700 rounded-2xl p-5"><strong>Family / Caregiver</strong><p class="text-xs text-gray-400 mt-2">استلام تنبيه واتخاذ إجراء وفق خطة الطوارئ.</p></div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-5 mt-10 text-sm">
+                <div class="bg-green-950/40 border border-green-700/40 p-5 rounded-2xl"><strong class="text-green-300">Local-first</strong><p class="text-gray-300 mt-2">التقييم المحلي يستمر حتى عند ضعف الإنترنت؛ التنبيه البعيد ينتظر عودة القناة أو يستخدم قناة احتياطية مستقبلًا.</p></div>
+                <div class="bg-purple-950/40 border border-purple-700/40 p-5 rounded-2xl"><strong class="text-purple-300">Data minimization</strong><p class="text-gray-300 mt-2">إرسال أقل قدر ممكن: نوع الحدث، الوقت، درجة الحالة، الأسباب، وحالة الجهاز.</p></div>
+                <div class="bg-orange-950/40 border border-orange-700/40 p-5 rounded-2xl"><strong class="text-orange-300">Fail-safe</strong><p class="text-gray-300 mt-2">التنبيه المحلي والبطارية الاحتياطية لا يعتمدان كليًا على التطبيق أو الشبكة.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. تفاصيل إطار القرار -->
+    <section id="decision-details" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14"><h2 class="text-4xl font-extrabold mb-5">آلية اتخاذ القرار خطوة بخطوة</h2><p class="text-gray-600">المنطق التالي يوضح الهيكل، بينما تبقى الأوزان والحدود الدقيقة متغيرات بحثية تخضع للاختبار.</p></div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <div class="border-r-4 border-blue-500 bg-gray-50 p-5 rounded-xl"><strong>1. بدء الجلسة</strong><p class="text-sm text-gray-600 mt-1">فتح الباب أو اكتشاف وجود يبدأ سياقًا زمنيًا جديدًا.</p></div>
+                    <div class="border-r-4 border-blue-500 bg-gray-50 p-5 rounded-xl"><strong>2. فحص سلامة الحساسات</strong><p class="text-sm text-gray-600 mt-1">التحقق من الاتصال، حداثة القراءة، والبطارية قبل الوثوق بالبيانات.</p></div>
+                    <div class="border-r-4 border-blue-500 bg-gray-50 p-5 rounded-xl"><strong>3. استخراج الأدلة</strong><p class="text-sm text-gray-600 mt-1">Fall signal، الحركة، مدة السكون، مدة الجلسة، نمط الباب، والاستجابة.</p></div>
+                    <div class="border-r-4 border-blue-500 bg-gray-50 p-5 rounded-xl"><strong>4. حساب الانحراف</strong><p class="text-sm text-gray-600 mt-1">مقارنة الزمن والحركة بسلوك المستخدم التاريخي مع السماح للتغير التدريجي.</p></div>
+                    <div class="border-r-4 border-blue-500 bg-gray-50 p-5 rounded-xl"><strong>5. دمج الأدلة</strong><p class="text-sm text-gray-600 mt-1">رفع الثقة عندما تتفق مؤشرات مستقلة، وخفضها عندما تتعارض.</p></div>
+                    <div class="border-r-4 border-purple-500 bg-purple-50 p-5 rounded-xl"><strong>6. التحقق الصوتي</strong><p class="text-sm text-gray-600 mt-1">عند الحالة المتوسطة/العالية: “هل أنت بخير؟” ثم تحليل وجود رد مسموح، لا حفظ الحديث.</p></div>
+                    <div class="border-r-4 border-orange-500 bg-orange-50 p-5 rounded-xl"><strong>7. نافذة إعادة التقييم</strong><p class="text-sm text-gray-600 mt-1">مراقبة قصيرة لاكتشاف عودة الحركة أو فتح الباب أو رد واضح.</p></div>
+                    <div class="border-r-4 border-red-500 bg-red-50 p-5 rounded-xl"><strong>8. القرار والتفسير</strong><p class="text-sm text-gray-600 mt-1">تصنيف آمن/متابعة/مساعدة وإرفاق أسباب قابلة للفهم.</p></div>
+                </div>
+                <div class="bg-gray-950 text-gray-200 rounded-3xl p-7 font-mono text-sm leading-7" dir="ltr">
+                    <div class="text-green-400">// Conceptual pseudocode</div>
+                    <div>session = detectEntryOrPresence()</div>
+                    <div>health = validateSensors()</div>
+                    <div>evidence = {</div>
+                    <div class="pl-5">fall, motion, stillness, duration,</div>
+                    <div class="pl-5">routineDeviation, voiceResponse, door</div>
+                    <div>}</div>
+                    <div class="mt-3">risk = fuse(evidence, health)</div>
+                    <div class="mt-3 text-yellow-300">if risk &gt;= VERIFY:</div>
+                    <div class="pl-5">askUser("هل أنت بخير؟")</div>
+                    <div class="pl-5">risk = reassess(response, newMotion)</div>
+                    <div class="mt-3 text-red-300">if risk &gt;= HELP:</div>
+                    <div class="pl-5">localAlarm()</div>
+                    <div class="pl-5">notifyApp(explain(risk))</div>
+                    <div class="mt-3 text-blue-300">else if risk &gt;= WATCH:</div>
+                    <div class="pl-5">continueMonitoring()</div>
+                    <div class="mt-3">else:</div>
+                    <div class="pl-5">markSafe()</div>
+                    <div class="mt-5 text-gray-500">// Thresholds are experimental and safety-reviewed.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. سيناريوهات الاختبار -->
+    <section id="testing" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14"><h2 class="text-4xl font-extrabold mb-5">سيناريوهات الاختبار والتحقق</h2><p class="text-gray-600">يجب تكرار كل حالة بأشخاص، زوايا، ملابس، سرعات، وأوضاع تركيب مختلفة، مع تسجيل النتيجة الحقيقية مسبقًا.</p></div>
+            <div class="overflow-x-auto bg-white rounded-3xl border shadow-sm">
+                <table class="w-full min-w-[1100px] text-sm text-right">
+                    <thead class="bg-gray-900 text-white"><tr><th class="p-4">السيناريو</th><th class="p-4">الإشارات المتوقعة</th><th class="p-4">السلوك المطلوب</th><th class="p-4">مؤشر النجاح</th></tr></thead>
+                    <tbody class="divide-y">
+                        <tr><td class="p-4 font-bold">سقوط قوي وعدم حركة</td><td class="p-4">Fall مرتفع + سكون + لا رد.</td><td class="p-4">تحقق صوتي قصير ثم تنبيه أحمر محلي وبعيد.</td><td class="p-4">حساسية وزمن تنبيه مناسب دون تأخير خطر.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">انزلاق مع استعادة الوقوف</td><td class="p-4">إشارة سقوط لحظية ثم حركة ورد.</td><td class="p-4">إلغاء التصعيد أو تحويله لمتابعة موثقة.</td><td class="p-4">عدم إرسال طوارئ كاذبة مع حفظ الحدث.</td></tr>
+                        <tr><td class="p-4 font-bold">الجلوس أو الانحناء بسرعة</td><td class="p-4">تغير ارتفاع دون نمط سقوط كامل.</td><td class="p-4">تصنيف آمن أو متابعة قصيرة.</td><td class="p-4">Specificity جيدة ضد الأنشطة اليومية.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">تأخر أطول من الروتين</td><td class="p-4">مدة شاذة مع حركة ضعيفة أو متقطعة.</td><td class="p-4">سؤال المستخدم، ثم متابعة أو تنبيه بحسب الرد.</td><td class="p-4">تمييز التأخر الطبيعي من الحالة الصحية.</td></tr>
+                        <tr><td class="p-4 font-bold">مرض/دوخة دون سقوط واضح</td><td class="p-4">سكون غير معتاد + مدة طويلة + كلمة مساعدة أو لا رد.</td><td class="p-4">رفع مستوى الخطر حتى دون إشارة سقوط قوية.</td><td class="p-4">اكتشاف “الحاجة للمساعدة” لا السقوط فقط.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">ضيف ذو روتين مختلف</td><td class="p-4">روتين غير معروف أو مخالف للمستخدم الأساسي.</td><td class="p-4">تعطيل/تقليل وزن الروتين مؤقتًا وعدم تعلم الضيف تلقائيًا.</td><td class="p-4">منع إنذارات بسبب اختلاف العادات.</td></tr>
+                        <tr><td class="p-4 font-bold">شخصان في المكان</td><td class="p-4">أهداف متعددة أو قراءات متداخلة.</td><td class="p-4">إعلان “حالة غير مؤكدة/متعدد” وعدم الادعاء بتحديد هوية.</td><td class="p-4">سلوك محافظ وتوثيق محدودية النظام.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">الباب مفتوح دون دخول</td><td class="p-4">MC-38 يتغير دون وجود راداري.</td><td class="p-4">لا تبدأ جلسة كاملة اعتمادًا على الباب وحده.</td><td class="p-4">عدم احتساب مدة زائفة.</td></tr>
+                        <tr><td class="p-4 font-bold">بخار/ماء/مروحة</td><td class="p-4">ضوضاء بيئية أو صوتية.</td><td class="p-4">استمرار الرصد، وتسجيل انخفاض جودة الصوت إن حدث.</td><td class="p-4">استقرار الرادار وعدم تضخم الإنذارات.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">انقطاع الإنترنت</td><td class="p-4">الحساسات سليمة، قناة التطبيق غير متاحة.</td><td class="p-4">قرار وتنبيه محلي، تخزين حدث مؤقت وإرساله عند العودة.</td><td class="p-4">عدم توقف الحماية المحلية.</td></tr>
+                        <tr><td class="p-4 font-bold">انقطاع الكهرباء</td><td class="p-4">الانتقال إلى البطارية.</td><td class="p-4">استمرار أساسي، إشعار بطارية، ثم إغلاق آمن عند حد حرج.</td><td class="p-4">زمن تشغيل احتياطي موثق واختبار حراري.</td></tr>
+                        <tr class="bg-gray-50"><td class="p-4 font-bold">فشل حساس واحد</td><td class="p-4">قراءة قديمة/غير منطقية أو انقطاع UART.</td><td class="p-4">خفض الثقة، إظهار عطل، وعدم تقديم “آمن” بثقة زائفة.</td><td class="p-4">Fault detection وFail-safe واضحان.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. التطوير المستقبلي -->
+    <section id="roadmap" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14"><h2 class="text-4xl font-extrabold mb-5">Future Roadmap</h2><p class="text-gray-600">خريطة مرحلية؛ الانتقال بين المراحل يعتمد على اجتياز معايير الاختبار والسلامة.</p></div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="rounded-3xl p-7 bg-gray-50 border"><span class="text-xs font-bold text-blue-600">PHASE 1 — CURRENT</span><h3 class="font-bold text-xl mt-2">Prototype v0.1</h3><ul class="text-sm text-gray-600 mt-4 space-y-2"><li>دمج الحساسات.</li><li>منطق قرار أولي.</li><li>واجهة تطبيق تجريبية.</li><li>اختبار مكتبي.</li></ul></div>
+                <div class="rounded-3xl p-7 bg-blue-50 border border-blue-100"><span class="text-xs font-bold text-blue-600">PHASE 2</span><h3 class="font-bold text-xl mt-2">Engineering Validation</h3><ul class="text-sm text-gray-600 mt-4 space-y-2"><li>PCB مخصص.</li><li>اختبار الرطوبة والطاقة.</li><li>معايرة الرادار.</li><li>تشفير وهوية جهاز.</li></ul></div>
+                <div class="rounded-3xl p-7 bg-purple-50 border border-purple-100"><span class="text-xs font-bold text-purple-600">PHASE 3</span><h3 class="font-bold text-xl mt-2">Pilot Study</h3><ul class="text-sm text-gray-600 mt-4 space-y-2"><li>بروتوكول أخلاقي.</li><li>عينة مستخدمين محدودة.</li><li>مقاييس أداء وقبول.</li><li>تحليل أخطاء.</li></ul></div>
+                <div class="rounded-3xl p-7 bg-green-50 border border-green-100"><span class="text-xs font-bold text-green-700">PHASE 4</span><h3 class="font-bold text-xl mt-2">Productization</h3><ul class="text-sm text-gray-600 mt-4 space-y-2"><li>اختبارات امتثال واعتماد.</li><li>تصميم تصنيع واختبار.</li><li>قنوات اتصال احتياطية.</li><li>إطلاق محدود ومراقب.</li></ul></div>
+            </div>
+            <div class="mt-8 grid md:grid-cols-3 gap-5">
+                <div class="p-5 rounded-2xl border"><strong>ترقية المتحكم</strong><p class="text-sm text-gray-600 mt-2">تقييم ESP32-WROOM-32E أو منصة أحدث بدل 32D المصنف NRND.</p></div>
+                <div class="p-5 rounded-2xl border"><strong>تعلم محلي آمن</strong><p class="text-sm text-gray-600 mt-2">تحديث الروتين تدريجيًا مع منع تعلم الحالات الشاذة أو الضيوف تلقائيًا.</p></div>
+                <div class="p-5 rounded-2xl border"><strong>قنوات احتياطية</strong><p class="text-sm text-gray-600 mt-2">دراسة LTE-M/NB-IoT أو بوابة منزلية عند غياب Wi‑Fi، وفق السوق واللوائح.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 15. المراجع -->
+    <section id="references" class="py-24 bg-gray-950 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14"><h2 class="text-4xl font-extrabold mb-5">المراجع العلمية والتقنية</h2><p class="text-gray-400">روابط الوصول أدناه للاطلاع والتحقق. تاريخ المراجعة: 30 يوليو 2026.</p></div>
+            <ol class="space-y-4 text-sm leading-relaxed list-decimal pr-6 text-gray-300">
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://www.who.int/news-room/fact-sheets/detail/falls">World Health Organization. Falls — Fact Sheet.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://www.who.int/publications/i/item/978924002191-4">WHO. Step Safely: Strategies for preventing and managing falls across the life-course.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11507471/">Hu S. et al. Radar-Based Fall Detection: A Survey. Sensors, 2024.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4662041/">Chaudhuri S. et al. Real World Accuracy and Use of a Wearable Fall Detection Device by Older Adults. 2015.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4566912/">Rantz M. et al. Automated In-Home Fall Risk Assessment and Detection Sensor System. 2015.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11175272/">Shen Z. et al. Advanced Millimeter-Wave Radar System for Real-Time Multiple-Human Tracking and Fall Detection. 2024.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11334405/">Huang H.H. et al. Factors affecting acceptance of fall detection technology among older adults and families. 2024.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/10188814">Kittiyanpunya C. et al. Millimeter-Wave Radar-Based Elderly Fall Detection. IEEE Access, 2023.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://support.apple.com/en-gb/108896">Apple Support. Use Fall Detection with Apple Watch.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://www.lifealert.com/howitworks.aspx">Life Alert. How It Works.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://vayyar.com/care-pages/how/">Vayyar Care. RF sensing for senior care — How it works.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://documentation.espressif.com/esp32-wroom-32d_esp32-wroom-32u_datasheet_en.html">Espressif. ESP32-WROOM-32D / ESP32-WROOM-32U Datasheet.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://wiki.seeedstudio.com/getting_started_with_mr60fda2_mmwave_kit/">Seeed Studio. MR60FDA2 mmWave Fall Detection Kit Documentation.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://product.tdk.com/system/files/dam/doc/product/sw_piezo/mic/mems-mic/data_sheet/inmp441.pdf">TDK/InvenSense. INMP441 Datasheet.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://patents.google.com/patent/US11741813B2/en">Google Patents. US11741813B2 — Fall detection system and method.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://patents.google.com/patent/US11875659B2/en">Google Patents. US11875659B2 — Privacy-preserving radar-based fall monitoring.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://patents.google.com/patent/US7612681B2/en">Google Patents. US7612681B2 — System and method for predicting fall risk.</a></li>
+                <li><a class="text-blue-400 hover:underline" target="_blank" rel="noopener" href="https://patentscope.wipo.int/">WIPO PATENTSCOPE — International and national patent search.</a></li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 16. FAQ -->
+    <section id="faq" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12"><h2 class="text-4xl font-extrabold mb-4">الأسئلة الشائعة</h2></div>
+            <div class="space-y-4">
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">هل GuardianSense جهاز طبي معتمد؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">لا. هو نموذج بحثي أولي قيد التطوير والاختبار، ولا يجوز اعتباره بديلًا لخدمات الطوارئ أو التقييم الطبي.</p></details>
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">هل يصور المستخدم أو يسجل فيديو؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">لا توجد كاميرا في التصميم. يعتمد النظام على الرادار وحساس الباب والوقت والتحقق الصوتي المحدود.</p></details>
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">هل يُحفظ الصوت؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">المبدأ التصميمي هو معالجة الاستجابة محليًا وعدم حفظ التسجيلات. يجب توثيق ذلك تقنيًا في الكود وسياسة الخصوصية واختباره أمنيًا.</p></details>
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">هل يمكنه اكتشاف كل حالات السقوط؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">لا يمكن ضمان اكتشاف جميع الحالات. الأداء يعتمد على التركيب والبيئة والخوارزمية، ويجب قياسه باختبارات معلنة.</p></details>
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">ماذا يحدث إذا انقطع الإنترنت؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">التصميم يستهدف استمرار القرار والتنبيه المحلي. الإشعار البعيد قد يتأخر حتى عودة الاتصال ما لم تُضف قناة احتياطية.</p></details>
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">كيف يتعامل مع الضيوف؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">يجب توفير وضع ضيف أو تعطيل وزن الروتين مؤقتًا، ومنع النظام من دمج سلوك الضيف في ملف المستخدم الأساسي تلقائيًا.</p></details>
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">هل يحدد هوية الشخص؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">لا يفترض النظام تحديد هوية الشخص من الرادار. إذا كان هناك أكثر من شخص أو هوية غير مؤكدة، يجب إظهار محدودية القرار.</p></details>
+                <details class="group border rounded-2xl p-6 bg-gray-50"><summary class="font-bold cursor-pointer">لماذا لا يعتمد على السقوط فقط؟</summary><p class="text-sm text-gray-600 mt-4 leading-relaxed">لأن الحاجة للمساعدة قد تحدث دون سقوط واضح، كما أن بعض الحركات اليومية قد تشبه السقوط. لذلك يدمج النظام عدة أدلة ويعيد التحقق.</p></details>
+            </div>
+        </div>
+    </section>
+
+    <!-- 17. الملكية الفكرية -->
+    <section id="ip" class="py-20 bg-blue-700 text-white">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <div class="text-4xl mb-4">©</div><h2 class="text-3xl font-extrabold mb-5">حقوق الملكية الفكرية</h2>
+            <p class="leading-relaxed text-blue-50">مشروع GuardianSense، بما يشمل الاسم والعلامة والهوية البصرية، النصوص الأصلية، مخططات النظام، تصميمات الواجهات، التصاميم الصناعية، الرسومات، الشيفرات البرمجية، قواعد القرار، النماذج الأولية والمحتوى المنشور، هو ملك لـ GuardianSense ما لم يُذكر خلاف ذلك. لا يجوز النسخ أو إعادة النشر أو الاستخدام التجاري أو إنشاء أعمال مشتقة دون إذن كتابي مسبق.</p>
+            <p class="mt-5 text-sm text-blue-200">المراجع والأسماء التجارية وبراءات الأطراف الأخرى تبقى ملكًا لأصحابها، ويُستخدم ذكرها لأغراض البحث والمقارنة فقط. هذا النص لا يغني عن تسجيل العلامة أو حقوق المؤلف أو طلب البراءة وفق النظام المعمول به.</p>
+        </div>
+    </section>
+
+    <!-- 18. حالة المشروع -->
+    <section id="project-status" class="py-24 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12"><h2 class="text-4xl font-extrabold mb-4">الإنجازات وحالة المشروع</h2><p class="text-gray-600">سجل حالة شفاف يفرق بين ما تم تصميمه وما تم التحقق منه فعليًا.</p></div>
+            <div class="grid md:grid-cols-4 gap-5 mb-8">
+                <div class="bg-white border rounded-3xl p-6"><span class="text-xs text-gray-500">STATUS</span><div class="text-xl font-bold text-orange-600 mt-2">Research Prototype</div></div>
+                <div class="bg-white border rounded-3xl p-6"><span class="text-xs text-gray-500">VERSION</span><div class="text-xl font-bold text-gray-900 mt-2">v0.1 — Concept</div></div>
+                <div class="bg-white border rounded-3xl p-6"><span class="text-xs text-gray-500">LAST UPDATE</span><div class="text-xl font-bold text-gray-900 mt-2">30 يوليو 2026</div></div>
+                <div class="bg-white border rounded-3xl p-6"><span class="text-xs text-gray-500">VALIDATION</span><div class="text-xl font-bold text-red-600 mt-2">غير معتمد سريريًا</div></div>
+            </div>
+            <div class="bg-white border rounded-3xl p-8">
+                <h3 class="text-2xl font-bold mb-5">المنجز حاليًا</h3>
+                <div class="grid md:grid-cols-2 gap-4 text-sm">
+                    <div class="flex gap-3"><span class="text-green-600">✓</span><p>تعريف المشكلة وسؤال البحث والفرضية الأولية.</p></div>
+                    <div class="flex gap-3"><span class="text-green-600">✓</span><p>تصميم معماري أولي للحساسات وESP32 والتطبيق.</p></div>
+                    <div class="flex gap-3"><span class="text-green-600">✓</span><p>اختيار مكونات نموذج أولي ووصف وظائفها.</p></div>
+                    <div class="flex gap-3"><span class="text-green-600">✓</span><p>تصميم Decision Framework قابل للتفسير.</p></div>
+                    <div class="flex gap-3"><span class="text-green-600">✓</span><p>إعداد سيناريوهات اختبار ومقاييس تقييم.</p></div>
+                    <div class="flex gap-3"><span class="text-green-600">✓</span><p>مراجعة أولية للدراسات والأنظمة والبراءات.</p></div>
+                    <div class="flex gap-3"><span class="text-orange-500">○</span><p>تجميع النموذج العتادي الكامل والتحقق الكهربائي — قيد العمل.</p></div>
+                    <div class="flex gap-3"><span class="text-orange-500">○</span><p>اختبارات أداء موثقة ودراسة ميدانية — لم تكتمل بعد.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 19. قسم اتصل بنا المربوط بـ Web3Forms -->
+    <section id="contact" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-block bg-blue-100 text-blue-600 font-semibold px-4 py-2 rounded-full mb-4">تواصل معنا</div>
+                <h3 class="text-4xl font-extrabold text-gray-900">نحن هنا للإجابة على استفساراتكم</h3>
+                <p class="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">لدى مشروعك استفسار أو ترغب في معرفة المزيد عن نظام GuardianSense؟ يسعدنا تواصلك معنا.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- معلومات التواصل -->
+                <div class="bg-gray-50 p-10 rounded-3xl border border-gray-100 space-y-8">
+                    <h4 class="text-2xl font-bold text-gray-900">معلومات الاتصال</h4>
+                    <p class="text-gray-600 leading-relaxed">
+                        نعمل باستمرار على تطوير حلول ذكية لسلامة كبار السن. لا تتردد في مراسلتنا لأي مقترح أو استفسار أكاديمي أو تقني.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 space-x-reverse">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl shrink-0">📧</div>
+                            <div>
+                                <div class="text-sm text-gray-500 font-medium">البريد الإلكتروني</div>
+                                <div class="text-gray-800 font-bold">jory@guardiansense.com</div>
+                            </div>
+                        </div>
+
+                        <a href="#" class="whatsapp-link flex items-center space-x-4 space-x-reverse group rounded-2xl p-3 -m-3 hover:bg-green-50 transition" aria-label="التواصل عبر واتساب">
+                            <div class="w-12 h-12 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center shrink-0">
+                                <svg viewBox="0 0 32 32" class="w-6 h-6 fill-current" aria-hidden="true">
+                                    <path d="M19.11 17.21c-.29-.15-1.72-.85-1.99-.95-.27-.1-.47-.15-.67.15-.2.29-.77.95-.94 1.14-.17.2-.35.22-.64.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.35.44-.52.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.29-1.04 1.02-1.04 2.48s1.06 2.87 1.21 3.07c.15.2 2.09 3.19 5.06 4.47.71.31 1.26.49 1.69.63.71.23 1.35.19 1.86.12.57-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.19-.57-.34z"/>
+                                    <path d="M16.04 3.2A12.65 12.65 0 0 0 5.18 22.34L3.2 28.8l6.62-1.94a12.64 12.64 0 1 0 6.22-23.66zm0 22.97a10.3 10.3 0 0 1-5.25-1.44l-.38-.23-3.93 1.15 1.18-3.83-.25-.39a10.31 10.31 0 1 1 8.63 4.74z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500 font-medium">واتساب</div>
+                                <div class="text-gray-800 font-bold group-hover:text-green-700 transition">057 321 4532</div>
+                            </div>
+                        </a>
+
+                        <div class="flex items-center space-x-4 space-x-reverse">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl shrink-0">📍</div>
+                            <div>
+                                <div class="text-sm text-gray-500 font-medium">الموقع</div>
+                                <div class="text-gray-800 font-bold">المملكة العربية السعودية</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="whatsapp-link w-full flex items-center justify-center gap-3 bg-green-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:bg-green-700 hover:shadow-xl transition duration-300">
+                        <svg viewBox="0 0 32 32" class="w-6 h-6 fill-current" aria-hidden="true">
+                            <path d="M19.11 17.21c-.29-.15-1.72-.85-1.99-.95-.27-.1-.47-.15-.67.15-.2.29-.77.95-.94 1.14-.17.2-.35.22-.64.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.35.44-.52.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.29-1.04 1.02-1.04 2.48s1.06 2.87 1.21 3.07c.15.2 2.09 3.19 5.06 4.47.71.31 1.26.49 1.69.63.71.23 1.35.19 1.86.12.57-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.19-.57-.34z"/>
+                            <path d="M16.04 3.2A12.65 12.65 0 0 0 5.18 22.34L3.2 28.8l6.62-1.94a12.64 12.64 0 1 0 6.22-23.66zm0 22.97a10.3 10.3 0 0 1-5.25-1.44l-.38-.23-3.93 1.15 1.18-3.83-.25-.39a10.31 10.31 0 1 1 8.63 4.74z"/>
+                        </svg>
+                        تواصل معنا عبر واتساب
+                    </a>
+                </div>
+
+                <!-- نموذج إرسال الرسائل -->
+                <div class="bg-gray-50 p-10 rounded-3xl border border-gray-100 shadow-sm">
+                    <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                        
+                        <!-- مفتاح الوصول الخاص بك -->
+                        <input type="hidden" name="access_key" value="b4155ba3-11de-447a-8841-cd5a90a415b6">
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">الاسم الكريم</label>
+                            <input type="text" name="name" placeholder="أدخل اسمك الكامل" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label>
+                            <input type="email" name="email" placeholder="name@example.com" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">الرسالة</label>
+                            <textarea name="message" rows="4" placeholder="اكتب رسالتك هنا..." required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:outline-none transition resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 hover:shadow-xl transition duration-300">
+                            إرسال الرسالة
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- زر واتساب عائم -->
+    <a href="#" class="whatsapp-link fixed bottom-6 left-6 z-50 w-14 h-14 bg-green-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-green-700 hover:scale-105 transition" aria-label="تواصل معنا عبر واتساب" title="تواصل معنا عبر واتساب">
+        <svg viewBox="0 0 32 32" class="w-8 h-8 fill-current" aria-hidden="true">
+            <path d="M19.11 17.21c-.29-.15-1.72-.85-1.99-.95-.27-.1-.47-.15-.67.15-.2.29-.77.95-.94 1.14-.17.2-.35.22-.64.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.59.13-.13.29-.35.44-.52.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.29-1.04 1.02-1.04 2.48s1.06 2.87 1.21 3.07c.15.2 2.09 3.19 5.06 4.47.71.31 1.26.49 1.69.63.71.23 1.35.19 1.86.12.57-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.19-.57-.34z"/>
+            <path d="M16.04 3.2A12.65 12.65 0 0 0 5.18 22.34L3.2 28.8l6.62-1.94a12.64 12.64 0 1 0 6.22-23.66zm0 22.97a10.3 10.3 0 0 1-5.25-1.44l-.38-.23-3.93 1.15 1.18-3.83-.25-.39a10.31 10.31 0 1 1 8.63 4.74z"/>
+        </svg>
+    </a>
+
+    <footer class="bg-gray-950 text-gray-400 py-16 text-center border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h4 class="text-3xl font-extrabold text-white mb-2 tracking-tight">GuardianSense</h4>
+            <p class="text-lg font-medium text-blue-400 mb-1">AI Safety System - Designed for Elderly Care</p>
+            <div class="w-24 h-1 bg-gray-800 mx-auto my-6 rounded-full"></div>
+            <p class="text-sm font-semibold tracking-wider">© 2026 GuardianSense. جميع الحقوق محفوظة.</p>
+            <p class="text-xs text-gray-600 mt-3">Research Prototype v0.1 • Last updated: 30 July 2026 • Not a certified medical device</p>
+        </div>
+    </footer>
+
+<script>
+    // رقم واتساب بصيغة دولية دون + أو مسافات
+    const whatsappNumber = '966582176789';
+    const whatsappMessage = 'مرحبًا، لدي استفسار عن مشروع GuardianSense';
+
+    document.querySelectorAll('.whatsapp-link').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (!whatsappNumber) {
+                alert('أرسل رقم الواتساب لإضافته، أو ضع الرقم داخل متغير whatsappNumber في نهاية ملف HTML.');
+                return;
+            }
+            const whatsappUrl = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(whatsappMessage);
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        });
+    });
+
+    document.addEventListener('click', function (event) {
+        document.querySelectorAll('nav details[open]').forEach(function (menu) {
+            if (!menu.contains(event.target)) menu.removeAttribute('open');
+        });
+    });
+
+    document.querySelectorAll('nav a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function () {
+            document.querySelectorAll('nav details[open]').forEach(function (menu) {
+                menu.removeAttribute('open');
+            });
+        });
+    });
+</script>
+</body>
+</html>
